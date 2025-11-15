@@ -1,14 +1,8 @@
 import './App.css'
+import AppRouter from './routes/AppRouter';
 
 function App() {
-
-  return (
-    <>
-      <div>
-        <h1>HMT</h1>
-      </div>
-    </>
-  )
+  return <AppRouter />;
 }
 
 export default App
