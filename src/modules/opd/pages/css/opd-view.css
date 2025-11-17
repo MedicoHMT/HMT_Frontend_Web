@@ -1,0 +1,37 @@
+.opd-view-container {
+  padding: 30px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.opd-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.opd-table th,
+.opd-table td {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.btn-small {
+  padding: 8px 12px;
+  font-size: 13px;
+  background: #007bff;
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}

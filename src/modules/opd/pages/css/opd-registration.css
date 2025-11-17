@@ -1,0 +1,41 @@
+.reg-container {
+  padding: 30px;
+}
+
+.reg-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.reg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.reg-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.reg-card h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.reg-card p {
+  color: #555;
+  font-size: 14px;
+}
+
+.reg-card:hover {
+  transform: translateY(-4px);
+  border-color: #007bff;
+  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.15);
+}

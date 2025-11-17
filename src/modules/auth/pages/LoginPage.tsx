@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { authService } from "../services/auth.service";
+import { authService } from "../../../services/auth.service";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -27,16 +26,17 @@ export default function LoginPage() {
       // Send login request to backend
       const res = await authService.login(form);
       
-      const { token, role } = res.data;
+      const { token, role, hospitalName } = res.data;
 
       // Save in localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("hospitalName", hospitalName);
 
       // Redirect based on role
       if (role === "ADMIN") navigate("/admin");
-      else if (role === "DOCTOR") navigate("/doctor");
-      else if (role === "STAFF") navigate("/staff");
+      else if (role === "DOCTOR") navigate("/");
+      else if (role === "STAFF") navigate("/");
       else navigate("/");
 
     } catch (err) {
@@ -48,7 +48,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow-lg p-4" style={{ width: "380px" }}>
         <h3 className="text-center mb-4 fw-bold">HMT Login</h3>
 
@@ -93,6 +93,6 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
-    </div>
+        </div>
   );
 }

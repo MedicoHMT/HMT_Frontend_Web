@@ -1,6 +1,72 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.dashboard-card {
+  width: 180px;
+  height: 110px;
+  background: #e6e6e6;
+  border-radius: 20px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dashboard-card:hover {
+  background: #d5d5d5;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 14px rgba(0,0,0,0.2);
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  transition: width 0.25s ease-in-out;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.sidebar-collapsed {
+  width: 70px;
+}
+
+.sidebar-expanded {
+  width: 220px;
+}
+
+/* Sidebar Items */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 8px;
+  margin: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.sidebar-item:hover {
+  background: #e8e8e8;
+}
+
+.sidebar-item.active {
+  background: #0d6efd;
+  color: white;
+}
+
+.sidebar-item.active:hover {
+  background: #0b5ed7;
+}
+
+/* Content area pushes automatically */
+.content-area {
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.25s ease-in-out;
+  padding: 20px;
+  margin-top: 60px; /* navbar height */
 }

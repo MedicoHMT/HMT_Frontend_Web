@@ -1,0 +1,55 @@
+.examine-container {
+  padding: 30px;
+}
+
+.examine-header {
+  background: #007bff;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.examine-options {
+  display: flex;
+  gap: 12px;
+}
+
+.examine-options button {
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 6px;
+  background: #007bff;
+  border: none;
+  color: white;
+  font-size: 15px;
+}
+
+.summary-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fafafa;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.summary-block {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.summary-block h4 {
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+.summary-empty {
+  padding: 20px;
+  text-align: center;
+  color: #777;
+  font-size: 15px;
+}

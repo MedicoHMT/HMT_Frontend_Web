@@ -1,0 +1,58 @@
+.assess-container {
+  padding: 30px;
+}
+
+.assess-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.assess-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.assess-field label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.assess-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  resize: vertical;
+}
+
+.assess-footer {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: #ddd;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #0069d9;
+}
