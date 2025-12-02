@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllVisits, getVisitById } from "../opd.api";
 import "./css/opd-view.css";
+import type { OPDVisitResponse } from "../opd.types";
 
 export default function OpdView() {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
-  const [visits, setVisits] = useState<any[]>([]);
-  const [filtered, setFiltered] = useState<any[]>([]);
+  const [visits, setVisits] = useState<OPDVisitResponse[]>([]);
+  const [filtered, setFiltered] = useState<OPDVisitResponse[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export default function OpdView() {
   };
 
   const printSlip = (visitId: string) => {
-    window.open(`/print/payment-slip/${visitId}`, "_blank");
+    window.open(`/opd/print/${visitId}`, "_blank");
   };
 
   return (
@@ -79,6 +80,7 @@ export default function OpdView() {
               <th>OPD ID</th>
               <th>UHID</th>
               <th>Patient Name</th>
+              <th>Doctor Name</th>
               <th>Department</th>
               <th>Print</th>
               <th>Edit</th>
@@ -91,11 +93,12 @@ export default function OpdView() {
               <tr key={v.opdId}>
                 <td>{v.opdId}</td>
                 <td>{v.patientUhid}</td>
-                <td>{v.patientName}</td>
-                <td>{v.department || "N/A"}</td>
+                <td>{v.patient.firstName} {v.patient.lastName}</td>
+                <td>{v.doctor.firstName} {v.doctor.lastName}</td>
+                <td>{v.doctor.department || "N/A"}</td>
                 <td>
                   <button className="btn-small" onClick={() => printSlip(v.opdId)}>
-                    Print
+                    Print Slip
                   </button>
                 </td>
                 <td>

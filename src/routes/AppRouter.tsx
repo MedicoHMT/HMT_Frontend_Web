@@ -1,79 +1,57 @@
-import { Suspense, lazy } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { routes } from "./routes";
+import { RouteGuard } from "../core/RouteGuard";
+import type { ComponentType, ReactElement } from "react";
+import React from "react";
+import MainLayout from "../layout/MainLayout";
 
-import RoleProtectedRoute from "./RoleProtectedRoute";
-import AdminLayout from "../layouts/AdminLayout";
-
-// Pages already in your project
-import LoginPage from "../modules/auth/pages/LoginPage";
-import DashboardPage from "../pages/DashboardPage";
-import ProtectedRoute from "./ProtectedRoute";
-import OpdVisitList from "../modules/opd/pages/OpdVisitList";
-import Patients from "../pages/Patients";
-import OpdVisitDetails from "../modules/opd/pages/OpdVisitDetails";
-import OpdExamine from "../modules/opd/pages/OpdExamine";
-
-// OPD pages (lazy loaded)
-const OpdHome = lazy(() => import("../modules/opd/pages/OpdHome"));
-const OpdRegistration = lazy(() => import("../modules/opd/pages/OpdRegistration"));
-const OpdVitals = lazy(() => import("../modules/opd/pages/OpdVitals"));
-const OpdAssessment = lazy(() => import("../modules/opd/pages/OpdAssessment"));
-const OpdEdit = lazy(() => import("../modules/opd/pages/OpdEdit"));
-const OpdView = lazy(() => import("../modules/opd/pages/OpdView"));
+function renderElement(el?: ComponentType<any> | ReactElement | null): ReactElement | null {
+  if (!el) return null;
+  if (React.isValidElement(el)) return el as ReactElement;
+  const Component = el as ComponentType<any>;
+  return <Component />;
+}
 
 export default function AppRouter() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-
-                {/* ---------- Public Routes ---------- */}
-                <Route path="/login" element={<LoginPage />} />
-
-                {/* ---------- Protected Admin Layout ---------- */}
-                <Route
-                    path="/"
-                    element={
-                        <ProtectedRoute>
-                            <AdminLayout />
-                        </ProtectedRoute>
-                    }
-                >
-                    {/* Dashboard */}
-                    <Route index element={<DashboardPage />} />
-
-                    {/* ------- OPD MODULE ROUTES ------- */}
-                    <Route path="opd" element={<OpdHome />} />
-                    <Route path="opd/registration" element={<OpdRegistration />} />
-                    <Route path="opd/vitals" element={<OpdVitals />} />
-                    <Route path="opd/assessment" element={<OpdAssessment />} />
-                    <Route path="opd/edit" element={<OpdEdit />} />
-                    <Route path="opd/view" element={<OpdView />} />
-                    <Route path="opd/visits" element={<OpdVisitList />} />
-                    <Route path="opd/visit-details" element={<OpdVisitDetails />} />
-                    <Route path="opd/examine/:visitId" element={<OpdExamine />} />
+  const publicRoutes = routes.filter(r => r.public);
+  const protectedRoutes = routes.filter(r => !r.public);
 
 
+  return (
+    <Routes>
 
-                    <Route path="patients" element={<Patients />} />
 
-                </Route>
+       {/* --- PUBLIC ROUTES (No Sidebar/Navbar) --- */}
+      {publicRoutes.map((r) => (
+        <Route
+          key={r.path}
+          path={r.path}
+          element={renderElement(r.element)}
+        />
+      ))}
+
+
+      {/* --- PROTECTED ROUTES --- */}
+      <Route element={<MainLayout />}>
+        {protectedRoutes.map((r) => (
+          <Route
+            key={r.path}
+            path={r.path}
+            element={
+              <RouteGuard roles={r.roles} permission={r.permission}>
+                {renderElement(r.element)}
+              </RouteGuard>
+            }
+          />
+        ))}
+      </Route>
 
 
 
-                {/* Role Based Route Example */}
-                {/* <Route
-                    path="/admin"
-                    element={
-                        <RoleProtectedRoute role="admin">
-                            <AdminLayout />
-                        </RoleProtectedRoute>
-                    }
-                /> */}
+      
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
 
-                {/* ---------- Fallback ---------- */}
-                <Route path="*" element={<Navigate to="/" />} />
-
-            </Routes>
-        </Suspense>
-    );
+    </Routes>
+  );
 }

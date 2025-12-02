@@ -1,13 +1,12 @@
-import Sidebar from "../components/Sidebar";
-import LogoutButton from "../components/LogoutButton";
 import { Outlet } from "react-router-dom";
+import LogoutButton from "../components/LogoutButton";
+import Sidebar from "../components/Sidebar";
 
-export default function AdminLayout() {
+export default function MainLayout() {
   const navbarHeight = 60; // px
 
   return (
     <div className="layout">
-
       {/* Fixed Top Navbar */}
       <div
         className="top-navbar d-flex justify-content-between align-items-center px-4 shadow-sm bg-light border-bottom"
@@ -20,7 +19,7 @@ export default function AdminLayout() {
           zIndex: 20,
         }}
       >
-        <h5 className="m-0 fw-bold">{localStorage.getItem("hospitalName")}</h5>
+        <h5 className="m-0 fw-bold">{localStorage.getItem("hospitalName") || "Hospital Management"}</h5>
         <LogoutButton />
       </div>
 
@@ -31,12 +30,13 @@ export default function AdminLayout() {
       <div
         className="content-area"
         style={{
-          marginLeft: "70px", // collapsed width
+          marginLeft: "70px", // Match this to your Sidebar's collapsed width
           marginTop: `${navbarHeight}px`,
           padding: "20px",
           transition: "margin-left 0.25s ease-in-out",
         }}
       >
+        {/* <Outlet /> renders the child route (e.g. Dashboard, OPD) here */}
         <Outlet />
       </div>
     </div>

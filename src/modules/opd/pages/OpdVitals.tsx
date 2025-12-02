@@ -10,7 +10,7 @@ export default function OpdVitals() {
 
   // Get visitId from URL
   const params = new URLSearchParams(location.search);
-  const visitId = params.get("opdid");
+  const visitId = params.get("visitId");
 
   const [loading, setLoading] = useState(false);
 

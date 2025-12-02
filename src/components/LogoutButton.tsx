@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { authService } from "../services/auth.service";
+import { useAuth } from "../core/auth/AuthContext";
 
 export default function LogoutButton() {
   const navigate = useNavigate();
+    const { logout } = useAuth();
 
   const handleLogout = () => {
-    authService.logout();
+    logout();
     navigate("/login");
   };
 

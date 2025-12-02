@@ -1,3 +1,6 @@
+import type { Doctor } from "../doctor/doctor.types";
+import type { Patient } from "../patient/patient.types";
+
 // Create Visit DTO
 export interface CreateVisitDTO {
   patientId: number;
@@ -12,37 +15,24 @@ export interface OPDVisitResponse {
   opdId: string;
   opdType: string;
 
-  patientName: string;
-  patientDob?: string;
-  patientUhid: string;
-
+  patientId: number;
   doctorId: number;
-  doctorName: string;
-
-  department?: string;
 
   visitDate: string;
   visitTime: string;
   consultationFee: number;
-
   status: string;
-}
 
-// Vitals DTO
-export interface OPDVitalsDTO {
-  visitId: number;
-  pulse: number;
-  spo2: number;
-  bp: string;
-  temperature: number;
-  respiration: number;
-  weight: number;
-  height: number;
+  patientUhid: string;
+
+  patient: Patient;
+  doctor: Doctor;
 }
 
 // Vitals Response
 export interface OPDVitalsResponse {
-  opdid: number;
+  id: number;
+  opdVisit: OPDVisitResponse;
   pulse: number;
   spo2: number;
   bp: string;
@@ -50,7 +40,7 @@ export interface OPDVitalsResponse {
   respiration: number;
   weight: number;
   height: number;
-  createdAt: string;
+  hospitalId: number;
 }
 
 // Assessment DTO

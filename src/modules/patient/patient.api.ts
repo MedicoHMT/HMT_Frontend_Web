@@ -1,13 +1,11 @@
-import http from "../../services/http";
+import api from "../../core/api/api";
+import type { Patient } from "./patient.types";
 
 export const createPatient = (data: any) => {
-  return http.post("/api/v1/patients", data);
+  return api.post<Patient>("/api/v1/patients", data);
 };
 
-export const getPatientById = (id: string | number) => {
-  return http.get(`/api/v1/patients/${id}`);
-};
 
 export const searchPatientByUHID = (uhid: string) => {
-  return http.get(`/api/v1/patients/${uhid}`);
+  return api.get<Patient>(`/api/v1/patients/${uhid}`);
 };

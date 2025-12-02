@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { patientService } from "../services/patient.service";
-import LogoutButton from "../components/LogoutButton";
 
 export default function Patients() {
   const [patients, setPatients] = useState<any[]>([]);

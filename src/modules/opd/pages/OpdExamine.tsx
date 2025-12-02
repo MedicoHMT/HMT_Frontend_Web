@@ -43,10 +43,10 @@ export default function OpdExamine() {
       <div className="examine-header">
         <div><b>UHID:</b> {visit.patientUhid}</div>
         <div><b>OPD ID:</b> {visit.opdId}</div>
-        <div><b>Patient:</b> {visit.patientName}</div>
-        <div><b>Doctor:</b> {visit.doctorName}</div>
-        <div><b>Department:</b> {visit.department}</div>
-        <div><b>DOB:</b> {visit.patientDob}</div>
+        <div><b>Patient:</b> {visit.patient.firstName} {visit.patient.lastName}</div>
+        <div><b>Doctor:</b> {visit.doctor.firstName} {visit.doctor.lastName}</div>
+        <div><b>Department:</b> {visit.doctor.department}</div>
+        <div><b>DOB:</b> {visit.patient.dateOfBirth}</div>
       </div>
 
       {/* BUTTONS */}
