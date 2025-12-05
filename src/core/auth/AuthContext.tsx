@@ -46,8 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   //     }
   //   })();
   // }, []);
-
-
   // expose to AuthStore (so api.interceptor can set)
   useEffect(() => {
     AuthStore.setCurrentUser(user);
@@ -59,6 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const claims = jwtDecode<UserPayload>(token);
       const u: CurrentUser = {
         username: claims.sub,
+        hospitalName: claims.hospitalName,
         role: claims.role,
         permissions: claims.permissions ?? []
       };

@@ -5,6 +5,7 @@ export interface UserPayload {
   role: Role;
   permissions?: string[];
   hospitalId?: string | null;
+  hospitalName?: string | null;
   exp?: number;
   iat?: number;
 }
@@ -13,6 +14,7 @@ export interface CurrentUser {
   username: string;
   role: Role;
   permissions: string[];
+  hospitalName?: string | null;
 }
 
 export interface AppRoute {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getAssessment, saveAssessment, updateVisitStatus } from "../opd.api";
 import "./css/assessment.css";
-import type { OPDAssessmentDTO, OPDAssessmentResponse } from "../opd.types";
+import type { OPDAssessmentResponse } from "../opd.types";
 
 export default function OpdAssessment() {
     const navigate = useNavigate();

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPatient } from "../../patient/patient.api";
-import { createVisit } from "../opd.api";
 import "./dialog.css";
 
 interface Props {
