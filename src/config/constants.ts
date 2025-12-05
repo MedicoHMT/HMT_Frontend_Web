@@ -1,5 +1,3 @@
-export const API_BASE_URL = "http://3.109.54.34:8080";
-
 
 
 export const Role = {
