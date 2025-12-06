@@ -12,6 +12,7 @@ export const RouteGuard: React.FC<GuardProps> = ({ roles, permission, children }
   const { user, hasRole, hasPermission } = useAuth();
   const location = useLocation();
 
+
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

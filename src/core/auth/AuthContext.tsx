@@ -28,24 +28,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // useEffect(() => {
   //   (async () => {
   //     try {
-  //       const res = await api.get('/auth/me'); // backend uses refresh cookie
-  //       const data = res.data;
-  //       const u: CurrentUser = {
-  //         username: data.username,
-  //         role: data.role,
-  //         permissions: data.permissions ?? []
-  //       };
+  //       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  //       const res = await api.post(`${API_BASE_URL}/api/auth/refresh`, {}, { withCredentials: true }); // backend uses refresh cookie
+  //       const newAccessToken = res.data?.accessToken;
+  //       console.log('AuthProvider: refresh success', newAccessToken);
+  //       console.log('AuthProvider: refresh success', res);
+  //       if (newAccessToken) {
+  //         const claims = jwtDecode<UserPayload>(newAccessToken);
+  //         const u: CurrentUser = {
+  //           username: claims.sub,
+  //           hospitalName: claims.hospitalName,
+  //           role: claims.role,
+  //           permissions: claims.permissions ?? []
+  //         };
   //       setUser(u);
-  //       if (data.accessToken) {
-  //         setAccessToken(data.accessToken);
-  //         api.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
+  //       setAccessToken(newAccessToken);
+  //         api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
   //       }
+  //       else{
+  //         setUser(null);
+  //         setAccessToken(null);
+  //       }
+      
   //     } catch {
   //       setUser(null);
   //       setAccessToken(null);
+  //     } finally{
+  //       setIsInitializing(false);
   //     }
   //   })();
   // }, []);
+
+
   // expose to AuthStore (so api.interceptor can set)
   useEffect(() => {
     AuthStore.setCurrentUser(user);
