@@ -5,15 +5,22 @@ import { useAuth } from "../core/auth/AuthContext";
 import { Role } from "../config/constants";
 import { useState } from "react";
 import { AddUserModal } from "../modules/admin/components/AddUserModal";
-
+import AddDepartmentModal from "../modules/admin/components/AddDepartmentModal";
 export default function MainLayout() {
   const navbarHeight = 60; // px
   const { user, hasRole } = useAuth();
 
+  const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [createTypeDoctor, setCreateTypeDoctor] = useState(false);
+
+
   const handleUserCreated = () => {
     alert("User created! ");
   };
+  const handleDeptCreated = () =>{
+    alert("DEpartment created!");
+  }
 
 
   return (
@@ -34,9 +41,34 @@ export default function MainLayout() {
         {
           hasRole([Role.ADMIN]) && (
             <button className="btn btn-outline-secondary"
-            onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                setIsModalOpen(true);
+                setCreateTypeDoctor(true);
+              }}
+            >
+              Add Doctor
+            </button>
+          )
+        }
+        {
+          hasRole([Role.ADMIN]) && (
+            <button className="btn btn-outline-secondary"
+              onClick={() => {
+                setIsModalOpen(true);
+                setCreateTypeDoctor(false);
+              }}
             >
               Add Employee
+            </button>
+          )
+        }
+
+        {
+          hasRole([Role.ADMIN]) && (
+            <button className="btn btn-outline-secondary"
+              onClick={() => setIsDepartmentModalOpen(true)}
+            >
+              Create Department
             </button>
           )
         }
@@ -59,11 +91,18 @@ export default function MainLayout() {
       >
         {/* <Outlet /> renders the child route (e.g. Dashboard, OPD) here */}
         <Outlet />
-      </div>     
-          <AddUserModal 
-        isOpen={isModalOpen} 
+      </div>
+
+      <AddUserModal
+        isOpen={isModalOpen}
+        createTypeDoctor={createTypeDoctor}
         onClose={() => setIsModalOpen(false)}
         onSuccess={handleUserCreated}
+      />
+      <AddDepartmentModal 
+      isOpen={isDepartmentModalOpen}
+        onClose={() => setIsDepartmentModalOpen(false)}
+        onSuccess={handleDeptCreated}
       />
     </div>
   );
