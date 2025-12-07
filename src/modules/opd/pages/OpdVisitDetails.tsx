@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createVisit } from "../opd.api";
 import "./css/visit-details.css";
-import { getDoctors } from "../../doctor/doctor.api";
+import { getAllDoctorsAPI } from "../../doctor/doctor.api";
+import type { DoctorResponse } from "../../doctor/doctor.types";
 
 export default function OpdVisitDetails() {
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const params = new URLSearchParams(location.search);
-    console.log(params.toString());
-    const patientId = params.get("patientUHId");
+    const { patientUHID } = useParams();
 
     const [loading, setLoading] = useState(false);
+    const [doctorList, setDoctorList] = useState<DoctorResponse[]>([]);
 
     const [form, setForm] = useState({
         doctorId: "",
@@ -22,7 +20,6 @@ export default function OpdVisitDetails() {
         opdStatus: "ACTIVE",
     });
 
-    const [doctorList, setDoctorList] = useState<any[]>([]);
 
 
     useEffect(() => {
@@ -31,7 +28,7 @@ export default function OpdVisitDetails() {
 
     const loadDoctors = async () => {
         try {
-            const response = await getDoctors();
+            const response = await getAllDoctorsAPI();
             setDoctorList(response.data);
         } catch (err) {
             console.error("Failed to load doctors", err);
@@ -48,7 +45,7 @@ export default function OpdVisitDetails() {
             setLoading(true);
 
             const payload = {
-                patientUHId: patientId,
+                patientUHId: patientUHID,
                 doctorId: Number(form.doctorId),
                 consultationFee: Number(form.consultationFee),
                 opdType: form.opdType,
@@ -59,7 +56,7 @@ export default function OpdVisitDetails() {
 
             alert("OPD Visit Saved Successfully!");
 
-            navigate("/opd"); // return to OPD Home
+            navigate("/opd"); 
 
         } catch (err) {
             console.error(err);
@@ -73,17 +70,18 @@ export default function OpdVisitDetails() {
     const handleDoctorChange = (doctorId: string) => {
         const selected = doctorList.find((d: any) => d.id === Number(doctorId));
 
-        setForm((prev) => ({
-            ...prev,
-            doctorId,
-            department: selected ? selected.department : ""
-        }));
+        // setForm((prev) => ({
+        //     ...prev,
+        //     doctorId,
+        //     department: selected ? selected.department : ""
+        // }));
     };
 
 
     return (
         <div className="visit-details-container">
             <h2 className="visit-details-title">Create OPD Visit</h2>
+            <div className="text-lg mb-3">Patient UHID: {patientUHID}</div>
 
             <div className="visit-details-grid">
 

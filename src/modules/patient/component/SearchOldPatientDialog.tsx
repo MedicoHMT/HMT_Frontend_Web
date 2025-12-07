@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { searchPatientByUHID } from "../../patient/patient.api";
 import "./dialog.css";
+import { searchPatientByUHIDAPI } from "../patient.api";
 
 interface Props {
   open: boolean;
@@ -18,7 +18,7 @@ export default function SearchOldPatientDialog({ open, onClose }: Props) {
 
   const handleSearch = async () => {
     try {
-      const res = await searchPatientByUHID(query);
+      const res = await searchPatientByUHIDAPI(query);
       setResults([res.data]);
     } catch (err) {
       console.error("Search failed", err);

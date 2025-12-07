@@ -1,21 +1,4 @@
-export type Role = 'SUPER_ADMIN' | 'ADMIN' | 'DOCTOR' | 'NURSE' | 'STAFF';
-
-export interface UserPayload {
-  sub: string;
-  role: Role;
-  permissions?: string[];
-  hospitalId?: string | null;
-  hospitalName?: string | null;
-  exp?: number;
-  iat?: number;
-}
-
-export interface CurrentUser {
-  username: string;
-  role: Role;
-  permissions: string[];
-  hospitalName?: string | null;
-}
+import type { Role } from "../../config/constants";
 
 export interface AppRoute {
   path: string;

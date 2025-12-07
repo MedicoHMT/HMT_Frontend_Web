@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createPatient } from "../../patient/patient.api";
 import "./dialog.css";
+import { createPatientAPI } from "../patient.api";
 
 interface Props {
   open: boolean;
@@ -18,6 +18,9 @@ export default function AddNewPatientDialog({ open, onClose }: Props) {
     gender: "",
     contactNumber: "",
     address: "",
+    email:"",
+    emergencyContactName:"",
+    emergencyContactNumber:"",
   });
 
   const [loading, setLoading] = useState(false);
@@ -28,14 +31,14 @@ export default function AddNewPatientDialog({ open, onClose }: Props) {
   try {
     setLoading(true);
 
-    // 1️⃣ Create Patient
-    const patientRes = await createPatient(form);
+    // Create Patient
+    const patientRes = await createPatientAPI(form);
     const patientId = patientRes.data.uhid;
 
     onClose();
 
-    // 2️⃣ Redirect to Visit Details Page
-    navigate(`/opd/visit-details?patientUHId=${patientId}`);
+    // Redirect to Visit Details Page
+    navigate(`/opd/visit-details/${patientId}`);
 
   } catch (err) {
     console.error(err);

@@ -1,5 +1,23 @@
 import type { Role } from "../../../config/constants";
 
+
+export interface UserPayload {
+  sub: string;
+  role: Role;
+  permissions?: string[];
+  hospitalId?: string | null;
+  hospitalName?: string | null;
+  exp?: number;
+  iat?: number;
+}
+
+export interface CurrentUser {
+  username: string;
+  role: Role;
+  permissions: string[];
+  hospitalName?: string | null;
+}
+
 export interface CreateUserRequest {
   username: string;
   email: string;
@@ -9,19 +27,3 @@ export interface CreateUserRequest {
   role: Role;
 }
 
-export interface CreateDoctorRequest {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: number | string; 
-  consultation_fee: number;
-  department_id: number;
-  specialization: string;
-}
-
-export interface CreateDepartmentRequest {
-  code: string;
-  name: string;
-  description: string | null;
-}

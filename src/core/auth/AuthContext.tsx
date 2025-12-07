@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AuthStore } from '../store/authStore';
 import api from '../api/api';
-import type { CurrentUser, UserPayload } from '../type/types';
+import { Role } from '../../config/constants';
+import type { CurrentUser, UserPayload } from '../../modules/admin/types/user.types';
 
 interface AuthContextValue {
   user: CurrentUser | null;
@@ -101,7 +102,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!user) return false;
     if (!permission) return true;
 
-    if (user.role === 'SUPER_ADMIN') return true;
+    if (user.role === Role.SUPER_ADMIN) return true;
     return user.permissions.includes(permission);
   };
 

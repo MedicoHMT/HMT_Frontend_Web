@@ -1,4 +1,5 @@
-import type { CurrentUser } from "../type/types";
+import type { CurrentUser } from "../../modules/admin/types/user.types";
+
 
 type Setter = {
   setUser: (u: CurrentUser | null) => void;

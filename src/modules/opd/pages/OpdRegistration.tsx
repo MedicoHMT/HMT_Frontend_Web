@@ -1,7 +1,7 @@
 import { useState } from "react";
-import AddNewPatientDialog from "../components/AddNewPatientDialog";
-import SearchOldPatientDialog from "../components/SearchOldPatientDialog";
 import "./css/opd-registration.css";
+import AddNewPatientDialog from "../../patient/component/AddNewPatientDialog";
+import SearchOldPatientDialog from "../../patient/component/SearchOldPatientDialog";
 
 export default function OpdRegistration() {
   const [openNew, setOpenNew] = useState(false);

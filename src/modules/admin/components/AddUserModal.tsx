@@ -1,10 +1,12 @@
 import { User, X, Shield, Mail, Phone, Save, Building, Stethoscope } from "lucide-react";
 import { useEffect, useState } from "react";
-import { createDoctor, createUser } from "../api/userApi";
-import type { CreateDoctorRequest, CreateUserRequest } from "../types/user.types";
+import { createUser } from "../api/userApi";
+import type { CreateUserRequest } from "../types/user.types";
 import { Role } from "../../../config/constants";
 import { getDepartments } from "../../departments/department.api";
 import type { DepartmentResponse } from "../../departments/department.type";
+import { createDoctor } from "../../doctor/doctor.api";
+import type { CreateDoctorRequest } from "../../doctor/doctor.types";
 
 interface AddUserModalProps {
   isOpen: boolean;
