@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./dialog.css";
 import { searchPatientByUHIDAPI } from "../patient.api";
+import type { PatientResponseType } from "../patient.types";
 
 interface Props {
   open: boolean;
@@ -12,7 +13,7 @@ export default function SearchOldPatientDialog({ open, onClose }: Props) {
   const navigate = useNavigate();
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<PatientResponseType[]>([]);
 
   if (!open) return null;
 
@@ -25,12 +26,12 @@ export default function SearchOldPatientDialog({ open, onClose }: Props) {
     }
   };
 
-  const handleSelect = (patientId: number) => {
+  const handleSelect = (patientId: string) => {
     // Close modal
     onClose();
 
     // Redirect to Visit Details page
-    navigate(`/opd/visit-details?patientId=${patientId}`);
+    navigate(`/opd/visit-details/${patientId}`);
   };
 
   return (
@@ -63,13 +64,13 @@ export default function SearchOldPatientDialog({ open, onClose }: Props) {
 
               <tbody>
                 {results.map((p) => (
-                  <tr key={p.id}>
+                  <tr key={p.uhid}>
                     <td>{p.firstName} {p.lastName}</td>
                     <td>{p.contactNumber}</td>
                     <td>
                       <button
                         className="btn-small"
-                        onClick={() => handleSelect(p.id)}
+                        onClick={() => handleSelect(p.uhid)}
                       >
                         Select
                       </button>

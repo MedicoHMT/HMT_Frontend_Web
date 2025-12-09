@@ -92,10 +92,10 @@ export default function OpdView() {
             {filtered.map((v) => (
               <tr key={v.opdId}>
                 <td>{v.opdId}</td>
-                <td>{v.patientUhid}</td>
+                <td>{v.patient.uhid}</td>
                 <td>{v.patient.firstName} {v.patient.lastName}</td>
                 <td>{v.doctor.firstName} {v.doctor.lastName}</td>
-                <td>{v.doctor.department || "N/A"}</td>
+                <td>{v.department.name || "N/A"}</td>
                 <td>
                   <button className="btn-small" onClick={() => printSlip(v.opdId)}>
                     Print Slip

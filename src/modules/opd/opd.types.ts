@@ -1,13 +1,17 @@
-import type { Doctor } from "../doctor/doctor.types";
-import type { Patient } from "../patient/patient.types";
+import type { DepartmentResponse } from "../departments/department.type";
+import type { DoctorResponse } from "../doctor/doctor.types";
+import type { PatientResponseType } from "../patient/patient.types";
 
-// Create Visit DTO
-export interface CreateVisitDTO {
-  patientId: number;
+export interface CreateOPDVisitRequest {
+  patientUHId: string;
   doctorId: number;
+  departmentId: number;
   consultationFee: number;
-  opdType: string;       // GENERAL, REVISIT, etc.
-  status?: string;       // ACTIVE, COMPLETED, CANCELLED
+  opdType: string;      
+  status: string;       // ACTIVE, COMPLETED, CANCELLED
+  reason: string | null;
+  triageLevel: string | null;
+  opdVisitDateTime: string;
 }
 
 // Visit Response
@@ -15,18 +19,15 @@ export interface OPDVisitResponse {
   opdId: string;
   opdType: string;
 
-  patientId: number;
-  doctorId: number;
-
+  tokenNumber: number;
+  triageLevel: string;
+  reason: string;
   visitDate: string;
-  visitTime: string;
   consultationFee: number;
   status: string;
-
-  patientUhid: string;
-
-  patient: Patient;
-  doctor: Doctor;
+  patient: PatientResponseType;
+  doctor: DoctorResponse;
+  department: DepartmentResponse;
 }
 
 // Vitals Response
