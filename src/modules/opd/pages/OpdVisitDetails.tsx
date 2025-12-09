@@ -1,65 +1,93 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createVisit } from "../opd.api";
 import "./css/visit-details.css";
-import { getDoctors } from "../../doctor/doctor.api";
+import { getAllDoctorsAPI } from "../../doctor/doctor.api";
+import type { DoctorResponse } from "../../doctor/doctor.types";
+import type { CreateOPDVisitRequest } from "../opd.types";
 
 export default function OpdVisitDetails() {
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const params = new URLSearchParams(location.search);
-    console.log(params.toString());
-    const patientId = params.get("patientUHId");
+    const { patientUHID } = useParams();
 
     const [loading, setLoading] = useState(false);
+    const [doctorList, setDoctorList] = useState<DoctorResponse[]>([]);
 
-    const [form, setForm] = useState({
+    type FormState = {
+        doctorId: string;
+        departmentId: string;
+        departmentName: string;
+        patientUHId: string;
+        consultationFee: string;
+        opdType: string;
+        status: string;
+        reason: string;
+        triageLevel: string;
+        opdVisitDateTime: string;
+    };
+
+    const [form, setForm] = useState<FormState>({
         doctorId: "",
-        department: "",
+        departmentId: "",
+        departmentName: "",
+        patientUHId: patientUHID ?? "",
         consultationFee: "",
         opdType: "",
-        opdStatus: "ACTIVE",
+        status: "ACTIVE",
+        reason: "",
+        triageLevel: "",
+        opdVisitDateTime: new Date().toISOString()
     });
 
-    const [doctorList, setDoctorList] = useState<any[]>([]);
 
 
     useEffect(() => {
+        const controller = new AbortController();
+
+        const loadDoctors = async () => {
+            try {
+                setLoading(true);
+                const response = await getAllDoctorsAPI({ signal: controller.signal });
+                setDoctorList(response.data ?? []);
+            } catch (err: any) {
+                if (err?.name === 'CanceledError' || err?.name === 'AbortError') return;
+                console.error("Failed to load doctors", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         loadDoctors();
+
+        return () => controller.abort();
     }, []);
 
-    const loadDoctors = async () => {
-        try {
-            const response = await getDoctors();
-            setDoctorList(response.data);
-        } catch (err) {
-            console.error("Failed to load doctors", err);
-        }
-    };
 
-
-    const handleChange = (field: string, value: string) => {
-        setForm((prev) => ({ ...prev, [field]: value }));
+    const handleChange = (field: keyof FormState, value: string | number | Date | null) => {
+        setForm((prev) => ({ ...prev, [field]: value as any }));
     };
 
     const handleSubmit = async () => {
         try {
             setLoading(true);
 
-            const payload = {
-                patientUHId: patientId,
+            const payload: CreateOPDVisitRequest = {
+                patientUHId: form.patientUHId,
                 doctorId: Number(form.doctorId),
-                consultationFee: Number(form.consultationFee),
+                departmentId: Number(form.departmentId || 0),
+                consultationFee: Number(form.consultationFee || 0),
                 opdType: form.opdType,
-                status: form.opdStatus
+                status: form.status,
+                reason: form.reason || null,
+                triageLevel: form.triageLevel || null,
+                opdVisitDateTime: new Date(form.opdVisitDateTime).toISOString(),
             };
 
             await createVisit(payload);
 
             alert("OPD Visit Saved Successfully!");
 
-            navigate("/opd"); // return to OPD Home
+            navigate("/opd");
 
         } catch (err) {
             console.error(err);
@@ -69,14 +97,16 @@ export default function OpdVisitDetails() {
         }
     };
 
-    // Auto-fill department when doctor is selected
     const handleDoctorChange = (doctorId: string) => {
-        const selected = doctorList.find((d: any) => d.id === Number(doctorId));
+        const id = Number(doctorId);
+        const selected = doctorList.find((d: any) => d.doctorId === id);
 
         setForm((prev) => ({
             ...prev,
-            doctorId,
-            department: selected ? selected.department : ""
+            doctorId: doctorId,
+            departmentId: selected ? String(selected.department.department_id) : "",
+            departmentName: selected ? (selected.department.name ?? String(selected.department.department_id)) : "",
+            consultationFee: selected ? String(selected.consultationFee) : "",
         }));
     };
 
@@ -84,6 +114,7 @@ export default function OpdVisitDetails() {
     return (
         <div className="visit-details-container">
             <h2 className="visit-details-title">Create OPD Visit</h2>
+            <div className="text-lg mb-3">Patient UHID: {patientUHID}</div>
 
             <div className="visit-details-grid">
 
@@ -96,7 +127,7 @@ export default function OpdVisitDetails() {
                         <option value="">Select Doctor</option>
 
                         {doctorList.map((doc: any) => (
-                            <option key={doc.id} value={doc.id}>
+                            <option key={doc.doctorId} value={doc.doctorId}>
                                 {doc.firstName} {doc.lastName} {doc.specialization ? `(${doc.specialization})` : ""}
                             </option>
                         ))}
@@ -107,7 +138,7 @@ export default function OpdVisitDetails() {
                 <div className="visit-field">
                     <label>Department</label>
                     <input
-                        value={form.department}
+                        value={form.departmentName}
                         disabled
                         placeholder="Auto-filled from doctor"
                     />
@@ -140,13 +171,30 @@ export default function OpdVisitDetails() {
                 <div className="visit-field">
                     <label>Status</label>
                     <select
-                        value={form.opdStatus}
-                        onChange={(e) => handleChange("opdStatus", e.target.value)}
+                        value={form.status}
+                        onChange={(e) => handleChange("status", e.target.value)}
                     >
                         <option value="ACTIVE">Active</option>
                         <option value="COMPLETED">Completed</option>
                         <option value="CANCELLED">Cancelled</option>
                     </select>
+                </div>
+
+                <div className="visit-field">
+                    <label>Reason</label>
+                    <input
+                        placeholder="Reason"
+                        value={form.reason}
+                        onChange={(e) => handleChange("reason", e.target.value)}
+                    />
+                </div>
+
+                <div className="visit-field">
+                    <label>Visit Date & Time</label>
+                    <input
+                        type="datetime-local"
+                        onChange={(e) => handleChange("opdVisitDateTime", e.target.value)}
+                        value={form.opdVisitDateTime} />
                 </div>
 
             </div>

@@ -6,6 +6,8 @@ import OpdVisitDetails from "../modules/opd/pages/OpdVisitDetails";
 import OpdVisitList from "../modules/opd/pages/OpdVisitList";
 import DashboardPage from "../pages/DashboardPage";
 import Login from "../pages/Login";
+import Patients from "../modules/patient/pages/Patients";
+import Doctors from "../modules/doctor/pages/Doctors";
 
 
 export const routes: AppRoute[] = [
@@ -14,6 +16,16 @@ export const routes: AppRoute[] = [
   { path: '/dashboard', element: DashboardPage, roles: [Role.ADMIN, Role.DOCTOR, Role.STAFF] },
 
 
+  {
+    path: '/patients',
+    element: Patients,
+    roles: [Role.ADMIN, Role.DOCTOR, Role.STAFF] 
+  },
+  {
+    path: '/doctors',
+    element: Doctors,
+    roles: [Role.ADMIN, Role.DOCTOR, Role.STAFF] 
+  },
 
   
     /* ------- OPD MODULE ROUTES ------- */
@@ -53,7 +65,7 @@ export const routes: AppRoute[] = [
     roles: [Role.ADMIN, Role.DOCTOR, Role.STAFF] 
   },
   { 
-    path: '/opd/visit-details', 
+    path: '/opd/visit-details/:patientUHID', 
     element: OpdVisitDetails, 
     roles: [Role.ADMIN, Role.DOCTOR, Role.STAFF] 
   },

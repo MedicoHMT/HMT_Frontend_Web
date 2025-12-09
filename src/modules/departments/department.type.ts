@@ -1,7 +1,9 @@
+
+
 export interface DepartmentRequest {
     code: string;
     name: string;
-    description: string;
+    description: string | null;
 }
 
 export interface DepartmentResponse {

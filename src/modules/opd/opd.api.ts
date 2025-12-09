@@ -1,9 +1,13 @@
 import api from "../../core/api/api";
-import type { OPDVisitResponse } from "./opd.types";
+import type { CreateOPDVisitRequest, OPDVisitResponse } from "./opd.types";
 
+
+export const createVisit = (data: CreateOPDVisitRequest) => {
+  return api.post<OPDVisitResponse>("/api/v1/opd/visits", data);
+};
 
 export const getAllVisits = () => {
-  return api.get("/api/v1/opd/visits");
+  return api.get<OPDVisitResponse[]>("/api/v1/opd/visits");
 };
 
 export const getVisitById = (opdId: string) => {
@@ -19,9 +23,6 @@ export const getAssessment = (id: string) => {
   return api.get(`/api/v1/opd/assessment/${id}`);
 };
 
-export const createVisit = (data: any) => {
-  return api.post("/api/v1/opd/visits", data);
-};
 
 export const saveVitals = (data: any) => {
   return api.post("/api/v1/opd/vitals", data);

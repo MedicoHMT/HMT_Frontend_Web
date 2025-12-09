@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { routes } from "./routes";
-import { RouteGuard } from "../core/RouteGuard";
+import { RouteGuard } from "../core/guard/RouteGuard";
 import type { ComponentType, ReactElement } from "react";
 import React from "react";
 import MainLayout from "../layout/MainLayout";

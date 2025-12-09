@@ -41,11 +41,11 @@ export default function OpdExamine() {
       
       {/* TOP BLUE PATIENT INFO BOX */}
       <div className="examine-header">
-        <div><b>UHID:</b> {visit.patientUhid}</div>
+        <div><b>UHID:</b> {visit.patient.uhid}</div>
         <div><b>OPD ID:</b> {visit.opdId}</div>
         <div><b>Patient:</b> {visit.patient.firstName} {visit.patient.lastName}</div>
         <div><b>Doctor:</b> {visit.doctor.firstName} {visit.doctor.lastName}</div>
-        <div><b>Department:</b> {visit.doctor.department}</div>
+        <div><b>Department:</b> {visit.department.name}</div>
         <div><b>DOB:</b> {visit.patient.dateOfBirth}</div>
       </div>
 
@@ -67,8 +67,7 @@ export default function OpdExamine() {
 
         <div className="summary-block">
           <h4>Visit Details</h4>
-          <p><b>Visit Date:</b> {visit.visitDate}</p>
-          <p><b>Visit Time:</b> {visit.visitTime}</p>
+          <p><b>Visit Date & Time:</b> {visit.visitDate}</p>
           <p><b>Consultation Fee:</b> ₹{visit.consultationFee}</p>
           <p><b>OPD Type:</b> {visit.opdType}</p>
           <p><b>Status:</b> {visit.status}</p>

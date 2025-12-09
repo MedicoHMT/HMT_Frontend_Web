@@ -1,8 +1,8 @@
 // AddDepartmentModal.tsx
 import React, { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { createDepartmentApi } from "../api/userApi";
-import type { CreateDepartmentRequest } from "../types/user.types";
+import { createDepartmentApi } from "../../departments/department.api";
+import type { DepartmentRequest } from "../../departments/department.type";
 
 type AddDepartmentModalProps = {
   isOpen: boolean;
@@ -56,7 +56,7 @@ export default function AddDepartmentModal({
 
     setIsSubmitting(true);
     try {
-      const payload: CreateDepartmentRequest = {
+      const payload: DepartmentRequest = {
         code: form.code.trim(),
         name: form.name.trim(),
         description: form.description?.trim() || null,
