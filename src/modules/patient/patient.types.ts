@@ -1,6 +1,7 @@
 export interface PatientResponseType {
   uhid: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   dateOfBirth: string;
   gender: string;
@@ -14,11 +15,16 @@ export interface PatientResponseType {
 
 export interface PatientRequestType {
   firstName: string;
+  middleName: string;
   lastName: string;
   dateOfBirth: string;
   gender: string;
   contactNumber: string;
-  address: string;
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  pinCode: string;
   email: string,
   emergencyContactName: string,
   emergencyContactNumber: string
