@@ -11,7 +11,7 @@ export const getAllVisits = () => {
 };
 
 export const getVisitById = (opdId: string) => {
-  return api.get<OPDVisitResponse>(`/api/v1/opd/visits/${opdId}`);
+  return api.get<OPDVisitResponse>(`/api/v1/opd/visits/detail/${opdId}`);
 };
 
 

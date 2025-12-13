@@ -18,7 +18,6 @@ export interface CreateOPDVisitRequest {
 export interface OPDVisitResponse {
   opdId: string;
   opdType: string;
-
   tokenNumber: number;
   triageLevel: string;
   reason: string;
@@ -30,15 +29,29 @@ export interface OPDVisitResponse {
   department: DepartmentResponse;
 }
 
+//Vitals Request
+export interface OPDVitalsRequest {
+  opdVisitId: string;
+  pulseRate: number;
+  bpSystolic: number;
+  bpDiastolic: number;
+  temperature: number;
+  spo2: number;
+  respirationRate: number;
+  weight: number;
+  height: number;
+}
+
 // Vitals Response
 export interface OPDVitalsResponse {
-  id: number;
+  //id: number;
   opdVisit: OPDVisitResponse;
-  pulse: number;
+  pulseRate: number;
   spo2: number;
-  bp: string;
+  bpSystolic: number;
+  bpDiastolic: number;
   temperature: number;
-  respiration: number;
+  respirationRate: number;
   weight: number;
   height: number;
   hospitalId: number;
@@ -46,7 +59,7 @@ export interface OPDVitalsResponse {
 
 // Assessment DTO
 export interface OPDAssessmentDTO {
-  visitId: number;
+  opdVisitId: number;
   symptoms: string;
   generalExamination: string;
   systemicExamination: string;
@@ -58,7 +71,7 @@ export interface OPDAssessmentDTO {
 // Assessment Response
 export interface OPDAssessmentResponse {
   id: number;
-  visitId: number;
+  opdVisit: OPDVisitResponse;
   symptoms: string;
   generalExamination: string;
   systemicExamination: string;
