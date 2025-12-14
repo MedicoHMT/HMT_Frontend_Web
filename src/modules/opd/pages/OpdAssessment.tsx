@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getAssessment, saveAssessment, updateVisitStatus } from "../opd.api";
+import { getAssessment, saveAssessment } from "../opd.api";
 import "./css/assessment.css";
 import type { OPDAssessmentResponse } from "../opd.types";
 
@@ -64,7 +64,7 @@ export default function OpdAssessment() {
             await saveAssessment(payload);
 
             // 2️⃣ Mark Visit Completed
-            await updateVisitStatus(opdVisitId!, "COMPLETED");
+            //await updateVisitStatus(opdVisitId!, "COMPLETED");
 
             // 3️⃣ Redirect to summary page
             navigate(`/opd/summary/${opdVisitId}`);

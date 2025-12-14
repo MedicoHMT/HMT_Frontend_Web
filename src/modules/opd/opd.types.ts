@@ -29,6 +29,24 @@ export interface OPDVisitResponse {
   department: DepartmentResponse;
 }
 
+// Detailed Visit Response
+export interface OPDDetailedVisitResponse {
+  opdId: string;
+  opdType: string;
+  tokenNumber: number;
+  triageLevel: string;
+  reason: string;
+  visitDate: string;
+  consultationFee: number;
+  status: string;
+  patient: PatientResponseType;
+  doctor: DoctorResponse;
+  department: DepartmentResponse;
+  opdVital: OPDVitalsResponse;
+  opdAssessment: OPDAssessmentResponse;
+  opdDiagnosis: OPDDiagnosisResponse;
+}
+
 //Vitals Request
 export interface OPDVitalsRequest {
   opdVisitId: string;
@@ -59,7 +77,7 @@ export interface OPDVitalsResponse {
 
 // Assessment DTO
 export interface OPDAssessmentDTO {
-  opdVisitId: number;
+  opdVisitId: string;
   symptoms: string;
   generalExamination: string;
   systemicExamination: string;
@@ -79,4 +97,18 @@ export interface OPDAssessmentResponse {
   dietPlan: string;
   notes: string;
   createdAt: string;
+}
+
+// Diagnosis Request
+export interface CreateOPDDiagnosisRequest {
+  opdVisitId: string;
+  icd10Code: string;
+  description: string;
+}
+
+// Diagnosis Response
+export interface OPDDiagnosisResponse {
+  opdVisit: OPDVisitResponse;
+  icd10Code: string;
+  description: string;
 }

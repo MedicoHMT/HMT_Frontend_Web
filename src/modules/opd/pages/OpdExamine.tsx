@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 
 
 import "./css/opd-examine.css";
-import { getAssessment, getVisitById, getVitals } from "../opd.api";
-import type { OPDVisitResponse, OPDVitalsResponse, OPDAssessmentResponse } from "../opd.types";
+import { getAssessment, getDetailedVisitById, getVisitById, getVitals } from "../opd.api";
+import { type OPDVisitResponse, type OPDVitalsResponse, type OPDAssessmentResponse, type OPDDiagnosisResponse } from "../opd.types";
 
 export default function OpdExamine() {
   const { visitId } = useParams();
@@ -13,6 +13,7 @@ export default function OpdExamine() {
   const [visit, setVisit] = useState<OPDVisitResponse | null>(null);
   const [vitals, setVitals] = useState<OPDVitalsResponse | null>(null);
   const [assessment, setAssessment] = useState<OPDAssessmentResponse | null>(null);
+  const [diagnosis, setDiagnosis] = useState<OPDDiagnosisResponse | null>(null);
 
   useEffect(() => {
     loadData();
@@ -20,14 +21,16 @@ export default function OpdExamine() {
 
   const loadData = async () => {
     try {
-      const visitRes = await getVisitById(visitId!);
-      setVisit(visitRes.data);
+      const detailedVisitRes = await getDetailedVisitById(visitId!);
+      setVisit(detailedVisitRes.data);
 
-      const vitalsRes = await getVitals(visitId!);
-      setVitals(vitalsRes.data);
+      //const vitalsRes = await getVitals(visitId!);
+      setVitals(detailedVisitRes.data.opdVital);
 
-      const assessRes = await getAssessment(visitId!);
-      setAssessment(assessRes.data);
+      //const assessRes = await getAssessment(visitId!);
+      setAssessment(detailedVisitRes.data.opdAssessment);
+
+      setDiagnosis(detailedVisitRes.data.opdDiagnosis);
 
     } catch (err) {
       console.error(err);
@@ -57,6 +60,9 @@ export default function OpdExamine() {
         <button onClick={() => navigate(`/opd/assessment?visitId=${visitId}`)}>
           Examine Assessment
         </button>
+        <button onClick={() => navigate(`/opd/diagnosis?visitId=${visitId}`)}>
+          Diagnosis
+        </button>
       
       </div>
 
@@ -76,10 +82,10 @@ export default function OpdExamine() {
         {vitals && (
           <div className="summary-block">
             <h4>Vitals</h4>
-            <p><b>BP:</b> {vitals.bp}</p>
-            <p><b>Pulse:</b> {vitals.pulse}</p>
+            <p><b>BP:</b> {vitals.bpSystolic}/{vitals.bpDiastolic}</p>
+            <p><b>Pulse:</b> {vitals.pulseRate}</p>
             <p><b>SPO2:</b> {vitals.spo2}</p>
-            <p><b>Respiration:</b> {vitals.respiration}</p>
+            <p><b>Respiration:</b> {vitals.respirationRate}</p>
             <p><b>Temperature:</b> {vitals.temperature} °F</p>
             <p><b>Weight:</b> {vitals.weight} kg</p>
             <p><b>Height:</b> {vitals.height} cm</p>
@@ -98,9 +104,17 @@ export default function OpdExamine() {
           </div>
         )}
 
-        {!vitals && !assessment && (
+        {diagnosis && (
+          <div className="summary-block">
+            <h4>Diagnosis</h4>
+            <p><b>ICD10 Code</b> {diagnosis.icd10Code}</p>
+            <p><b>Description:</b> {diagnosis.description}</p>
+          </div>
+        )}
+
+        {!vitals && !assessment && !diagnosis && (
           <div className="summary-empty">
-            No vitals or assessment added yet.
+            No vitals or assessment or diagnosis added yet.
           </div>
         )}
 
