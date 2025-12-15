@@ -45,6 +45,7 @@ export interface OPDDetailedVisitResponse {
   opdVital: OPDVitalsResponse;
   opdAssessment: OPDAssessmentResponse;
   opdDiagnosis: OPDDiagnosisResponse;
+  opdInvestigations: OPDInvestigationsResponse[];
 }
 
 //Vitals Request
@@ -111,4 +112,23 @@ export interface OPDDiagnosisResponse {
   opdVisit: OPDVisitResponse;
   icd10Code: string;
   description: string;
+}
+
+// Investigation Request
+export interface OPDInvestigationsRequest {
+  opdVisitId: string;
+  testName: string;
+  category: string;
+  isUrgent: boolean;
+  status: string;
+}
+
+// Investigation Response
+export interface OPDInvestigationsResponse {
+  opdVisit: OPDVisitResponse;
+  opdInvestigationId: string;
+  testName: string;
+  category: string;
+  isUrgent: boolean;
+  status: string;
 }

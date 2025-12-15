@@ -31,6 +31,10 @@ export const getDiagnosis = (id: string) => {
   return api.get(`/api/v1/opd/diagnosis/${id}`);
 }
 
+export const getInvestigations = (id: string) => {
+  return api.get(`/api/v1/opd/investigations/${id}`);
+}
+
 
 export const saveVitals = (data: any) => {
   return api.post("/api/v1/opd/vitals", data);
@@ -42,6 +46,10 @@ export const saveAssessment = (data: any) => {
 
 export const saveDiagnosis = (data: any) => {
   return api.post("/api/v1/opd/diagnosis", data);
+}
+
+export const saveInvestigations = (data: any) => {
+  return api.post("/api/v1/opd/investigations", data);
 }
 
 export const updateVisitStatus = (visitId: string, status: string) => {

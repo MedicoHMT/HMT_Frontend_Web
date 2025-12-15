@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 
 
 import "./css/opd-examine.css";
-import { getAssessment, getDetailedVisitById, getVisitById, getVitals } from "../opd.api";
-import { type OPDVisitResponse, type OPDVitalsResponse, type OPDAssessmentResponse, type OPDDiagnosisResponse } from "../opd.types";
+import { getDetailedVisitById } from "../opd.api";
+import { type OPDVisitResponse, type OPDVitalsResponse, type OPDAssessmentResponse, type OPDDiagnosisResponse, type OPDInvestigationsResponse } from "../opd.types";
 
 export default function OpdExamine() {
   const { visitId } = useParams();
@@ -14,6 +14,7 @@ export default function OpdExamine() {
   const [vitals, setVitals] = useState<OPDVitalsResponse | null>(null);
   const [assessment, setAssessment] = useState<OPDAssessmentResponse | null>(null);
   const [diagnosis, setDiagnosis] = useState<OPDDiagnosisResponse | null>(null);
+  const [investigations, setInvestigations] = useState<OPDInvestigationsResponse[]>([]);
 
   useEffect(() => {
     loadData();
@@ -32,6 +33,7 @@ export default function OpdExamine() {
 
       setDiagnosis(detailedVisitRes.data.opdDiagnosis);
 
+      setInvestigations(detailedVisitRes.data.opdInvestigations);
     } catch (err) {
       console.error(err);
     }
@@ -62,6 +64,9 @@ export default function OpdExamine() {
         </button>
         <button onClick={() => navigate(`/opd/diagnosis?visitId=${visitId}`)}>
           Diagnosis
+        </button>
+        <button onClick={() => navigate(`/opd/investigations?visitId=${visitId}`)}>
+          Investigations
         </button>
       
       </div>
@@ -111,6 +116,23 @@ export default function OpdExamine() {
             <p><b>Description:</b> {diagnosis.description}</p>
           </div>
         )}
+
+        {investigations && investigations.length > 0 && (
+          <div className="summary-block">
+            <h4>Investigations</h4>
+
+            {investigations.map((investigation, index) => (
+              <div className="investigation-item">
+                <h5>Investigation {index + 1}</h5>
+                <p><b>Test Name:</b> {investigation.testName}</p>
+                <p><b>Category:</b> {investigation.category}</p>
+                <p><b>Is Urgent:</b> {investigation.isUrgent}</p>
+                <p><b>Status:</b> {investigation.status}</p>
+                {investigations.length > index + 1 && <hr /> }
+              </div>
+            ))}
+          </div>
+        )}        
 
         {!vitals && !assessment && !diagnosis && (
           <div className="summary-empty">
