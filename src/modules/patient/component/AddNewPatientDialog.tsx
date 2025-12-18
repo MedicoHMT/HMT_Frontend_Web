@@ -13,11 +13,16 @@ export default function AddNewPatientDialog({ open, onClose }: Props) {
 
   const [form, setForm] = useState({
     firstName: "",
+    middleName: "",
     lastName: "",
     dateOfBirth: "",
     gender: "",
     contactNumber: "",
-    address: "",
+    street: "",
+    city: "",
+    state: "",
+    country: "",
+    pinCode: "",
     email:"",
     emergencyContactName:"",
     emergencyContactNumber:"",
@@ -63,6 +68,12 @@ export default function AddNewPatientDialog({ open, onClose }: Props) {
           />
 
           <input
+            placeholder="Middle Name"
+            value={form.middleName}
+            onChange={(e) => setForm({ ...form, middleName: e.target.value })}
+          />
+
+          <input
             placeholder="Last Name"
             value={form.lastName}
             onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -92,10 +103,38 @@ export default function AddNewPatientDialog({ open, onClose }: Props) {
           />
 
           <textarea
-            placeholder="Address"
-            rows={3}
-            value={form.address}
-            onChange={(e) => setForm({ ...form, address: e.target.value })}
+            placeholder="Street"
+            rows={1}
+            value={form.street}
+            onChange={(e) => setForm({ ...form, street: e.target.value })}
+          />
+
+          <textarea
+            placeholder="City"
+            rows={1}
+            value={form.city}
+            onChange={(e) => setForm({ ...form, city: e.target.value })}
+          />
+
+          <textarea
+            placeholder="State"
+            rows={1}
+            value={form.state}
+            onChange={(e) => setForm({ ...form, state: e.target.value })}
+          />
+
+          <textarea
+            placeholder="Country"
+            rows={1}
+            value={form.country}
+            onChange={(e) => setForm({ ...form, country: e.target.value })}
+          />
+
+          <textarea
+            placeholder="Pincode"
+            rows={1}
+            value={form.pinCode}
+            onChange={(e) => setForm({ ...form, pinCode: e.target.value })}
           />
         </div>
 

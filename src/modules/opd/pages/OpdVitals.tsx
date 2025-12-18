@@ -17,10 +17,10 @@ export default function OpdVitals() {
   const [vitals, setVitals] = useState({
     temperature: "",
     pulseRate: "",
-    respiratoryRate: "",
+    respirationRate: "",
     spo2: "",
-    bloodPressureSys: "",
-    bloodPressureDia: "",
+    bpSystolic: "",
+    bpDiastolic: "",
     weight: "",
     height: "",
   });
@@ -37,15 +37,13 @@ export default function OpdVitals() {
 
       // EXISTING VITALS FOUND → PREFILL INPUTS
       if (data) {
-        const [sys, dia] = data.bp?.split("/") ?? ["", ""];
-
         setVitals({
           temperature: data.temperature?.toString() ?? "",
-          pulseRate: data.pulse?.toString() ?? "",
-          respiratoryRate: data.respiration?.toString() ?? "",
+          pulseRate: data.pulseRate?.toString() ?? "",
+          respirationRate: data.respirationRate?.toString() ?? "",
           spo2: data.spo2?.toString() ?? "",
-          bloodPressureSys: sys,
-          bloodPressureDia: dia,
+          bpSystolic: data.bpSystolic?.toString() ?? "",
+          bpDiastolic: data.bpDiastolic?.toString() ?? "",
           weight: data.weight?.toString() ?? "",
           height: data.height?.toString() ?? "",
         });
@@ -64,15 +62,14 @@ export default function OpdVitals() {
     try {
       setLoading(true);
 
-      const bpString = `${vitals.bloodPressureSys}/${vitals.bloodPressureDia}`;
-
       const payload = {
-        opdid: visitId,
-        pulse: Number(vitals.pulseRate),
+        opdVisitId: visitId,
+        pulseRate: Number(vitals.pulseRate),
         spo2: Number(vitals.spo2),
-        bp: bpString,
+        bpSystolic: Number(vitals.bpSystolic),
+        bpDiastolic: Number(vitals.bpDiastolic),
         temperature: Number(vitals.temperature),
-        respiration: Number(vitals.respiratoryRate),
+        respirationRate: Number(vitals.respirationRate),
         weight: Number(vitals.weight),
         height: Number(vitals.height),
       };
@@ -111,9 +108,9 @@ export default function OpdVitals() {
 
         <input
           type="number"
-          placeholder="Respiratory Rate (/min)"
-          value={vitals.respiratoryRate}
-          onChange={(e) => handleChange("respiratoryRate", e.target.value)}
+          placeholder="Respiration Rate (/min)"
+          value={vitals.respirationRate}
+          onChange={(e) => handleChange("respirationRate", e.target.value)}
         />
 
         <input
@@ -127,8 +124,8 @@ export default function OpdVitals() {
           <input
             type="number"
             placeholder="BP Sys"
-            value={vitals.bloodPressureSys}
-            onChange={(e) => handleChange("bloodPressureSys", e.target.value)}
+            value={vitals.bpSystolic}
+            onChange={(e) => handleChange("bpSystolic", e.target.value)}
           />
 
           <span>/</span>
@@ -136,8 +133,8 @@ export default function OpdVitals() {
           <input
             type="number"
             placeholder="BP Dia"
-            value={vitals.bloodPressureDia}
-            onChange={(e) => handleChange("bloodPressureDia", e.target.value)}
+            value={vitals.bpDiastolic}
+            onChange={(e) => handleChange("bpDiastolic", e.target.value)}
           />
         </div>
 

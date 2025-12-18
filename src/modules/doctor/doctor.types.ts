@@ -4,6 +4,7 @@ export interface CreateDoctorRequest {
   username: string;
   email: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   phoneNumber: string; 
   consultation_fee: number;
@@ -15,6 +16,7 @@ export interface CreateDoctorRequest {
 export interface DoctorResponse {
   doctorId: number;
   firstName: string;
+  middleName: string;
   lastName: string;
   consultationFee: number;
   specialization: number;

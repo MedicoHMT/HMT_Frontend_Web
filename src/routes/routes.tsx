@@ -8,6 +8,8 @@ import DashboardPage from "../pages/DashboardPage";
 import Login from "../pages/Login";
 import Patients from "../modules/patient/pages/Patients";
 import Doctors from "../modules/doctor/pages/Doctors";
+import OpdDiagnosis from "../modules/opd/pages/OpdDiagnosis";
+import OpdInvestigations from "../modules/opd/pages/OpdInvestigations";
 
 
 export const routes: AppRoute[] = [
@@ -48,6 +50,16 @@ export const routes: AppRoute[] = [
     path: '/opd/assessment', 
     element: OpdAssessment, 
     roles: [Role.ADMIN, Role.DOCTOR] 
+  },
+  {
+    path: 'opd/diagnosis',
+    element: OpdDiagnosis,
+    roles: [Role.ADMIN, Role.DOCTOR]
+  },
+  {
+    path: 'opd/investigations',
+    element: OpdInvestigations,
+    roles: [Role.ADMIN, Role.DOCTOR]
   },
   { 
     path: '/opd/edit', 

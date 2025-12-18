@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getAssessment, saveAssessment, updateVisitStatus } from "../opd.api";
+import { getAssessment, saveAssessment } from "../opd.api";
 import "./css/assessment.css";
 import type { OPDAssessmentResponse } from "../opd.types";
 
@@ -8,9 +8,9 @@ export default function OpdAssessment() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Get visitId from URL
+    // Get opdVisitId from URL
     const params = new URLSearchParams(location.search);
-    const visitId = params.get("visitId");
+    const opdVisitId = params.get("visitId");
 
     const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ export default function OpdAssessment() {
 
     const loadExistingAssessment = async () => {
         try {
-            const res = await getAssessment(visitId!);
+            const res = await getAssessment(opdVisitId!);
 
             const data: OPDAssessmentResponse = res.data;
 
@@ -54,9 +54,9 @@ export default function OpdAssessment() {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-
+            
             const payload = {
-                opd_id: visitId,
+                opdVisitId: opdVisitId,
                 ...form
             };
 
@@ -64,10 +64,10 @@ export default function OpdAssessment() {
             await saveAssessment(payload);
 
             // 2️⃣ Mark Visit Completed
-            await updateVisitStatus(visitId!, "COMPLETED");
+            //await updateVisitStatus(opdVisitId!, "COMPLETED");
 
             // 3️⃣ Redirect to summary page
-            navigate(`/opd/summary/${visitId}`);
+            navigate(`/opd/summary/${opdVisitId}`);
 
         } catch (err) {
             console.error(err);

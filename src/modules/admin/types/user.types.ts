@@ -22,6 +22,7 @@ export interface CreateUserRequest {
   username: string;
   email: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   phoneNumber: number | string; 
   role: Role;
